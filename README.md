@@ -17,19 +17,31 @@ Obviously you must have [neovim/nvim-lspconfig](https://github.com/neovim/nvim-l
 
 Using [dein](https://github.com/Shougo/dein.vim)
 
-```
+```nvim
 call dein#add('neovim/nvim-lspconfig')
 call dein#add('octarect/nvim-lspservers')
 ```
 
-### Usage
+## Usage
 
-```
+### Enable language servers
+
+The following lua code setups all servers managed by `nvim-lspservers`.
+
+```lua
 local servers = require'lspservers'.get_installed_servers()
 for _, server in pairs(servers) do
   server:setup({ on_attach = on_attach })
 end
 ```
+
+### Available commands
+
+| Command                                |                              |
+|:---------------------------------------|:-----------------------------|
+| :LspServersInstall <language_server>   | Install a language server.   |
+| :LspServersUninstall <language_server> | Uninstall a language server. |
+
 
 ## Configuration
 
@@ -39,7 +51,7 @@ By default, language servers is placed on `$HOME/.local/share/nvim/lspservers`.
 
 You can specify another directory as their installation path.
 
-```
+```nvim
 let g:lspservers_installation_path = '/other/installation/path'
 ```
 
@@ -53,7 +65,7 @@ See https://github.com/nvim-lua/plenary.nvim#installation
 
 ### Test
 
-```
+```bash
 make test
 ```
 

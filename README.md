@@ -37,11 +37,12 @@ end
 
 ### Available commands
 
+> See also [Available Language Servers](#available-language-servers) for examples of `:LspServersInstall`.
+
 | Command                                |                              |
 |:---------------------------------------|:-----------------------------|
 | :LspServersInstall <language_server>   | Install a language server.   |
 | :LspServersUninstall <language_server> | Uninstall a language server. |
-
 
 ## Configuration
 
@@ -54,6 +55,13 @@ You can specify another directory as their installation path.
 ```nvim
 let g:lspservers_installation_path = '/other/installation/path'
 ```
+
+## Available language servers
+
+| Language | Language Server | Command                    |
+|:---------|:----------------|:---------------------------|
+| Go       | gopls           | `:LspServersInstall gopls` |
+| Vim      | vimls           | `:LspServersInstall vimls` |
 
 ## Development
 

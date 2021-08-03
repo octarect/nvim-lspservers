@@ -7,8 +7,9 @@ function M.exists(file)
       -- Permission denied, but it exists
       return true
     end
+    return false
   end
-  return ok, err
+  return true
 end
 
 function M.is_dir(path)

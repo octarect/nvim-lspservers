@@ -87,7 +87,12 @@ function M.exec(cmds, ctx)
         )
         show_message(ctx, msg, true)
 
+        if cmd.error_cb ~= nil then
+          cmd.error_cb(stream.stdout, stream.stderr)
+        end
+
         cmd.success_cb = nil
+        cmd.error_cb = nil
         local debug_msg = 'while executing:\n' .. vim.fn.json_encode(cmd)
         show_message(ctx, debug_msg, true)
 

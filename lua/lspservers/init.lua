@@ -1,5 +1,4 @@
 local config = require'lspservers/config'
-local status = require'lspservers/status'
 local command = require'lspservers/command'
 local servers = require'lspservers/servers'
 local libtable = require'lspservers/libtable'
@@ -8,7 +7,6 @@ local M = {}
 
 function init()
   config.set_default()
-  status.load_file()
 end
 
 function M.install(...)
@@ -32,7 +30,9 @@ function M.uninstall(...)
 end
 
 function M.get_installed_servers()
-  return status.get_installed_servers()
+  return vim.tbl_filter(function(s)
+    return s:is_installed()
+  end, servers)
 end
 
 init()

@@ -1,5 +1,4 @@
 local config = require'lspservers/config'
-local status = require'lspservers/status'
 local libos = require'lspservers/libos'
 local lspconfig = require'lspconfig'
 local M = {}
@@ -15,6 +14,10 @@ end
 
 function Server:get_installation_path()
   return libos.path_join(config.installation_path, self.name)
+end
+
+function Server:is_installed()
+  return libos.is_dir(self:get_installation_path())
 end
 
 function Server:setup(opts)
@@ -34,9 +37,6 @@ function Server:install()
     args = { '-c', self.installer },
     progress = string.format('Installing %s', self.name),
     cwd = installation_path,
-    success_cb = function(stdout, stderr)
-      status.add_server(self.name)
-    end,
     error_cb = function(stdout, stderr)
       if libos.is_dir(installation_path) then
         self:_rollback()
@@ -51,9 +51,6 @@ function Server:uninstall()
     args = { '-rf', self.name },
     progress = string.format('Removing %s', self.name),
     cwd = config.installation_path,
-    success_cb = function(stdout, stderr)
-      status.remove_server(self.name)
-    end,
   }
 end
 

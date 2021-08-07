@@ -40,6 +40,7 @@ function M.setup(opts)
   if #config.default_servers > 0 then
     M.install(unpack(config.default_servers))
   end
+  return M
 end
 
 return M

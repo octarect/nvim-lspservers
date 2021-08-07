@@ -6,7 +6,12 @@ local M = {}
 function M.install(...)
   local cmds = {}
   for _, name in ipairs({...}) do
-    if servers[name] ~= nil then
+    if servers[name] == nil then
+      -- Abort when non-existent server is specified.
+      return vim.api.nvim_err_writeln(
+        string.format('Server not found: %q', name)
+      )
+    else
       table.insert(cmds, servers[name]:install())
     end
   end

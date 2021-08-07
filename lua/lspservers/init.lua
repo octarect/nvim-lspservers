@@ -32,6 +32,9 @@ end
 -- setup() is called by user to configure this plugin.
 function M.setup(opts)
   config.setup(opts)
+  if #config.default_servers > 0 then
+    M.install(unpack(config.default_servers))
+  end
 end
 
 return M

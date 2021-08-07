@@ -19,6 +19,7 @@ function M._set_defaults(opts)
   end
 
   set('installation_path', M.default_installation_path)
+  set('default_servers', {})
 end
 
 M.setup()

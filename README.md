@@ -2,6 +2,11 @@
 
 Easy to install a language server for [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 
+## Features
+
+- Install/Uninstall language servers
+- Automatic installation
+
 ## Getting Started
 
 ### Dependencies
@@ -24,7 +29,7 @@ call dein#add('octarect/nvim-lspservers')
 
 ## Usage
 
-### Enable language servers
+### Examples
 
 The following lua code setups all servers managed by `nvim-lspservers`.
 
@@ -46,14 +51,25 @@ end
 
 ## Configuration
 
-### Change the installation path of language servers
+You can configure nvim-lspservers by setup() method. Default settings is as below.
 
-By default, language servers is placed on `$HOME/.local/share/nvim/lspservers`.
+NOTE: setup() must be called before installing or setting up servers.
 
-You can specify another directory as their installation path.
+```lua
+require'lspservers'.setup{
+  installation_path = '$HOME/.local/share/nvim/lspservers',
+  default_servers = {},
+}
+```
 
-```nvim
-let g:lspservers_installation_path = '/other/installation/path'
+### Auto install
+
+You can install your favorite servers when they aren't installed.
+
+```lua
+require'lspservers'.setup{
+  default_servers = { 'gopls', 'vimls' },
+}
 ```
 
 ## Available language servers

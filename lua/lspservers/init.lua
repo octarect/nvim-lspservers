@@ -1,13 +1,7 @@
 local config = require'lspservers/config'
 local command = require'lspservers/command'
 local servers = require'lspservers/servers'
-local libtable = require'lspservers/libtable'
-local libos = require'lspservers/libos'
 local M = {}
-
-function init()
-  config.set_default()
-end
 
 function M.install(...)
   local cmds = {}
@@ -35,6 +29,9 @@ function M.get_installed_servers()
   end, servers)
 end
 
-init()
+-- setup() is called by user to configure this plugin.
+function M.setup(opts)
+  config.setup(opts)
+end
 
 return M

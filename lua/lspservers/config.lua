@@ -1,15 +1,26 @@
 local M = {}
 
-function load_vim_var(config_key, vim_var, default_value_f)
-  M[config_key] = vim.g[vim_var] or default_value_f()
-end
-
-function M.set_default()
-  load_vim_var('installation_path', 'lspservers_installation_path', M.default_installation_path)
-end
-
 function M.default_installation_path()
   return os.getenv('HOME') .. '/.local/share/nvim/lspservers'
 end
+
+function M.setup(opts)
+  opts = opts or {}
+  M._set_defaults(opts)
+end
+
+function M._set_defaults(opts)
+  local set = function(key, default)
+    if type(default) == 'function' then
+      M[key] = opts[key] or default()
+    else
+      M[key] = opts[key] or default
+    end
+  end
+
+  set('installation_path', M.default_installation_path)
+end
+
+M.setup()
 
 return M

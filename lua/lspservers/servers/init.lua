@@ -3,6 +3,7 @@ local data = {}
 -- TODO: wanna make the below server list automatically
 local SERVERS = {
   "gopls",
+  "sumneko_lua",
   "vimls",
 }
 

@@ -20,10 +20,15 @@ function Server:is_installed()
   return libos.is_dir(self:get_installation_path())
 end
 
-function Server:setup(opts)
-  local opts = opts or {}
-  opts.cmd = extend_command_path(self.cmd, self.name)
-  lspconfig[self.name].setup(opts)
+function Server:setup(server_config)
+  local server_config = server_config or {}
+  server_config.cmd = extend_command_path(self.cmd, self.name)
+  lspconfig[self.name].setup(server_config)
+end
+
+function Server:setup_auto()
+  local server_config = vim.tbl_deep_extend('force', config.global, config.server_configs[self.name])
+  self:setup(server_config)
 end
 
 function Server:install()
@@ -37,7 +42,10 @@ function Server:install()
     args = { '-c', self.installer },
     progress = string.format('Installing %s', self.name),
     cwd = installation_path,
-    error_cb = function(stdout, stderr)
+    success_cb = function(_, _)
+      self:setup_auto()
+    end,
+    error_cb = function(_, _)
       if libos.is_dir(installation_path) then
         self:_rollback()
       end

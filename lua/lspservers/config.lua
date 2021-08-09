@@ -19,7 +19,20 @@ function M._set_defaults(opts)
   end
 
   set('installation_path', M.default_installation_path)
-  set('default_servers', {})
+  set('global', {})
+
+  M.default_servers = {}
+  M.server_configs = {}
+  for name, server_config in pairs(opts['servers'] or {}) do
+    if server_config then
+      table.insert(M.default_servers, name)
+      if type(server_config) == 'table' then
+        M.server_configs[name] = server_config
+      else
+        M.server_configs[name] = {}
+      end
+    end
+  end
 end
 
 M.setup()

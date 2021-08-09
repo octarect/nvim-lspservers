@@ -36,10 +36,27 @@ end
 
 -- setup() is called by user to configure this plugin.
 function M.setup(opts)
+  local new_servers = {}
+
   config.setup(opts)
-  if #config.default_servers > 0 then
-    M.install(unpack(config.default_servers))
+
+  -- Setup servers
+  for _, server_name in ipairs(config.default_servers) do
+    local server = servers[server_name]
+    if server ~= nil then
+      if server:is_installed() then
+        server:setup_auto()
+      else
+        table.insert(new_servers, server_name)
+      end
+    end
   end
+
+  -- Automatically install servers when they aren't installed
+  if #new_servers > 0 then
+    M.install(unpack(new_servers))
+  end
+
   return M
 end
 

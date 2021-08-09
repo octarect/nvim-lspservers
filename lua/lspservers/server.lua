@@ -16,6 +16,10 @@ function Server:get_installation_path()
   return libos.path_join(config.installation_path, self.name)
 end
 
+function Server:get_config()
+  return config.servers[self.name]
+end
+
 function Server:is_installed()
   return libos.is_dir(self:get_installation_path())
 end
@@ -28,10 +32,12 @@ end
 
 function Server:setup_auto()
   local priority = {
-    self.auto_config or {},
     config.global,
-    config.server_configs[self.name]
+    self:get_config().config,
   }
+  if self:get_config().auto_config then
+    table.insert(priority, 1, self.auto_config or {})
+  end
   local server_config = vim.tbl_deep_extend('force', unpack(priority))
   self:setup(server_config)
 end

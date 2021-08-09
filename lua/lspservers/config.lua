@@ -10,27 +10,41 @@ function M.setup(opts)
 end
 
 function M._set_defaults(opts)
-  local set = function(key, default)
-    if type(default) == 'function' then
-      M[key] = opts[key] or default()
+  local set = function(dst, src, key, default)
+    if src[key] == nil then
+      if type(default) == 'function' then
+        dst[key] = default()
+      else
+        dst[key] = default
+      end
     else
-      M[key] = opts[key] or default
+      dst[key] = src[key]
     end
   end
 
-  set('installation_path', M.default_installation_path)
-  set('global', {})
+  -- Where to install servers
+  set(M, opts, 'installation_path', M.default_installation_path)
+
+  -- Configuration which applied to all servers
+  set(M, opts, 'global', {})
 
   M.default_servers = {}
-  M.server_configs = {}
+  M.servers = {}
   for name, server_config in pairs(opts['servers'] or {}) do
     if server_config then
-      table.insert(M.default_servers, name)
-      if type(server_config) == 'table' then
-        M.server_configs[name] = server_config
-      else
-        M.server_configs[name] = {}
+      if type(server_config) ~= 'table' then
+        server_config = {}
       end
+
+      table.insert(M.default_servers, name)
+      M.servers[name] = {}
+
+      -- Determines whether to apply its recommended config
+      set(M.servers[name], server_config, 'auto_config', true)
+      server_config.auto_config = nil
+
+      -- Server config
+      M.servers[name].config = server_config
     end
   end
 end

@@ -27,7 +27,12 @@ function Server:setup(server_config)
 end
 
 function Server:setup_auto()
-  local server_config = vim.tbl_deep_extend('force', config.global, config.server_configs[self.name])
+  local priority = {
+    self.auto_config or {},
+    config.global,
+    config.server_configs[self.name]
+  }
+  local server_config = vim.tbl_deep_extend('force', unpack(priority))
   self:setup(server_config)
 end
 

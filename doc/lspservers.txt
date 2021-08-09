@@ -1,0 +1,119 @@
+==============================================================================
+nvim-lspservers                                                   *lspservers*
+
+nvim-lspservers is a plugin to install language servers for nvim-lspconfig.
+It also behaviors as frontend of nvim-lspconfig and setup servers
+automatically.
+
+Git: https://github.com/octarect/nvim-lspservers
+
+==============================================================================
+Installation                                         *lspservers-installation*
+
+Requirements:
+- Neovim v0.5.0 or Nightly
+- go
+- npm
+
+Install nvim-lspservers like any other Vim plugin.
+Using a plugin manager is recommended, e.g. [dein](https://github.com/Shougo/dein.vim)
+
+Using dein;
+>
+    call dein#add('neovim/nvim-lspconfig')
+    call dein#add('octarect/nvim-lspservers')
+<
+
+==============================================================================
+Usage                                                       *lspservers-usage*
+
+The following code will install and setup language servers.
+>
+    require'lspservers'.setup{
+    -- List servers you want to use. Each value of RHS should be `true` or table.
+    servers = {
+        gopls = true,
+
+        -- You can write server-specific configuration as follows;
+        -- vimls = {
+        --   filetypes = { "vim", ... },
+        --   init_options = {
+        --     ...
+        --   },
+        -- },
+    },
+
+    -- `global` configuration will be applied to all language servers.
+    global = {
+        on_attach = on_attach,
+    },
+    }
+<
+
+You may want to check list of available servers.
+You can check it out here:
+https://github.com/octarect/nvim-lspservers#available-language-servers
+
+==============================================================================
+Configuration                                              *lspservers-config*
+
+You can configure nvim-lspservers by passing configuration as dictionary to
+|lspservers.setup()|.
+
+installation_path                        *lspservers-config-installation-path*
+    Where to install language servers. The directory is automatically created
+    if it does not exist. Make sure that you have permission to access the
+    path.
+>
+    require'lspservers'.setup{
+      installation_path = '/path/to/your/location',
+      ...
+    }
+<
+    Type: |String|
+    Default: '$HOME/.local/share/nvim/lspservers'
+
+servers                                            *lspservers-config-servers*
+    Dictionary includes server names and their config. When calling
+    |lspservers.setup()|, the plugin auto install servers in the list if they
+    aren't installed.
+
+    See |lspservers-usage| for usage.
+>
+    servers = {
+        <server_name> = <config>,
+        ...
+    }
+<
+    <server_name>
+        Name of server you want to install.
+        You can find server name on
+        https://github.com/octarect/nvim-lspservers#available-language-servers
+
+        Type: |String|
+
+    <config> ~
+        If true, the server will be installed and use it with default config.
+        If false, the server will not be installed.
+        If you set dictionary, it will be passed to server as config.
+        (Some options are excluded. See below special fields. |)
+
+        Type: |Boolean| or |Dictionary|
+
+        Special fields: ~
+            auto_config
+            Determines whether to apply recommended config or not.
+
+            Type: |Boolean|
+
+    Type: |Dictionary|
+    Default: {}
+
+==============================================================================
+Lua function                                         *lspservers-lua-function*
+
+setup({config})                                           *lspservers.setup()*
+    Setup nvim-lspservers.
+    You can find spec of {config} in |lspservers-config| section.
+
+vim:tw=78:ts=8:ft=help:norl:

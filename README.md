@@ -2,10 +2,13 @@
 
 Easy to install a language server for [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 
+**nvim-lspservers is in early stage and a breaking change may happen suddenly. Stay tuned 😎**
+
 ## Features
 
-- Install/Uninstall language servers
-- Automatic installation
+- 🏭 Automate installation and setup of language servers
+- 🚀 Just call `require'lspservers'.setup()` to configure
+- ⚙️ Easy to customize language server
 
 ## Getting Started
 
@@ -29,55 +32,64 @@ call dein#add('octarect/nvim-lspservers')
 
 ## Usage
 
-### Examples
-
-The following lua code setups all servers managed by `nvim-lspservers`.
-
-```lua
-local servers = require'lspservers'.get_installed_servers()
-for _, server in pairs(servers) do
-  server:setup({ on_attach = on_attach })
-end
-```
-
-### Available commands
-
 > See also [Available Language Servers](#available-language-servers) for examples of `:LspServersInstall`.
 
-| Command                                |                              |
-|:---------------------------------------|:-----------------------------|
-| :LspServersInstall <language_server>   | Install a language server.   |
-| :LspServersUninstall <language_server> | Uninstall a language server. |
-
-## Configuration
-
-You can configure nvim-lspservers by setup() method. Default settings is as below.
-
-NOTE: setup() must be called before installing or setting up servers.
+The following code will install and setup language servers.
 
 ```lua
 require'lspservers'.setup{
-  installation_path = '$HOME/.local/share/nvim/lspservers',
-  default_servers = {},
+  -- List servers you want to use. Each value of RHS should be `true` or dictionary.
+  servers = {
+    gopls = true,
+
+    -- You can write server-specific configuration as follows;
+    -- vimls = {
+    --   filetypes = { "vim", ... },
+    --   init_options = {
+    --     ...
+    --   },
+    -- },
+  },
+
+  -- `global` configuration will be applied to all language servers.
+  global = {
+    on_attach = on_attach,
+  },
 }
 ```
 
-### Auto install
+### Available options
 
-You can install your favorite servers when they aren't installed.
+You can configure the plugin by passing options to `setup()` function as dictionary.
+The following options are available.
 
-```lua
-require'lspservers'.setup{
-  default_servers = { 'gopls', 'vimls' },
-}
-```
+#### Top level
+
+| Option              | Description                                                            | Type       | Default                              |
+|:--------------------|:-----------------------------------------------------------------------|:-----------|:------------------------------------:|
+| `installation_path` | Where to install servers.                                              | String     | `$HOME/.local/share/nvim/lspservers` |
+| `global`            | Configuration for all servers.                                         | Dictionary | `{}`                                 |
+| `servers`           | Configuration for each server. See also [Server level](#server-level). | Dictionary | `{}`                                 |
+
+#### Server level
+
+You can use same server name as nvim-lspconfig. See https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+
+Some special fields is defined for nvim-lspservers and they will be ignored as server configuration.
+
+| Option        | Description                                            | Type    | Default |
+|:--------------|:-------------------------------------------------------|:--------|:-------:|
+| `auto_config` | Determine whether to apply recommended config or not. | Boolean | `true`  |
 
 ## Available language servers
 
-| Language | Language Server | Command                    |
-|:---------|:----------------|:---------------------------|
-| Go       | gopls           | `:LspServersInstall gopls` |
-| Vim      | vimls           | `:LspServersInstall vimls` |
+**TODO**: I am planning to expand our supported servers in series. For the time being, we will focus to add same servers as [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md).
+
+| Language | Language Server | Auto config |
+|:---------|:----------------|:-----------:|
+| Go       | gopls           |             |
+| Lua      | sumneko_lua     | Yes         |
+| Vim      | vimls           |             |
 
 ## Development
 

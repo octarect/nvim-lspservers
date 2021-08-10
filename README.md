@@ -99,9 +99,35 @@ You need to install [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) for
 
 See https://github.com/nvim-lua/plenary.nvim#installation
 
-### Test
+### Adding new server
 
-```bash
-make test
+1. Create new lua file in `./lua/lspservers/servers/`. (e.g. `vimls.lua`)
+
+2. Edit `vimls.lua`
+
+`installer` and `cmd` will be executed in server's installation path.
+In this example, working directry is `<installation_path>/vimls/`.
+
+```lua
+local server = require'lspservers/server'
+
+return server.new({
+  name = 'vimls',
+  cmd = { './node_modules/.bin/vim-language-server', '--stdio' },
+  installer = [[
+    set -e
+    npm install vim-language-server@latest
+  ]]
+})
 ```
 
+3. Add server to SERVERS in `./lua/lspservers/servers/init.lua`
+
+```lua
+ local SERVERS = {
+   ...
++  "vimls",
+ }
+```
+
+4. Commit your changes and submit pull request.

@@ -5,6 +5,7 @@ local SERVERS = {
   "gopls",
   "sumneko_lua",
   "vimls",
+  "yamlls",
 }
 
 for _, server in ipairs(SERVERS) do

@@ -6,5 +6,5 @@ return server.new({
   installer = [[
     set -e
     npm install vim-language-server@latest
-  ]]
+  ]],
 })

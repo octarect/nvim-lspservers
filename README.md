@@ -121,13 +121,4 @@ return server.new({
 })
 ```
 
-3. Add server to SERVERS in `./lua/lspservers/servers/init.lua`
-
-```lua
- local SERVERS = {
-   ...
-+  "vimls",
- }
-```
-
-4. Commit your changes and submit pull request.
+3. Commit your changes and submit pull request.

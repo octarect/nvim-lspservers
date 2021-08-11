@@ -1,15 +1,13 @@
 local data = {}
 
--- TODO: wanna make the below server list automatically
-local SERVERS = {
-  "gopls",
-  "sumneko_lua",
-  "vimls",
-  "yamlls",
-}
+-- Auto-require modules in ./lua/lspservers/servers/
+local script_dir = debug.getinfo(1, 'S').source:match("@?(.*)/")
+for filename in io.popen('ls -1 ' .. script_dir):lines() do
+  if filename ~= 'init.lua' then
+    local server_name = string.match(filename, '(.+).lua')
 
-for _, server in ipairs(SERVERS) do
-  data[server] = require('lspservers/servers/' .. server)
+    data[server_name] = require('lspservers/servers/' .. server_name)
+  end
 end
 
 return data

@@ -17,7 +17,7 @@ function Server:get_installation_path()
 end
 
 function Server:get_config()
-  return config.servers[self.name]
+  return config.servers[self.name] or {}
 end
 
 function Server:is_installed()
@@ -33,7 +33,7 @@ end
 function Server:setup_auto()
   local priority = {
     config.global,
-    self:get_config().config,
+    self:get_config().config or {},
   }
   if self:get_config().auto_config then
     table.insert(priority, 1, self.auto_config or {})

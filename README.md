@@ -85,11 +85,15 @@ Some special fields is defined for nvim-lspservers and they will be ignored as s
 
 **TODO**: I am planning to expand our supported servers in series. For the time being, we will focus to add same servers as [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md).
 
-| Language | Language Server | Auto config |
-|:---------|:----------------|:-----------:|
-| Go       | gopls           |             |
-| Lua      | sumneko_lua     | Yes         |
-| Vim      | vimls           |             |
+| Language   | Language Server | Auto config |
+|:-----------|:----------------|:-----------:|
+| Dockerfile | dockerls        |             |
+| Go         | gopls           |             |
+| HTML       | html            | Yes         |
+| Lua        | sumneko_lua     | Yes         |
+| TypeScript | tsserver        |             |
+| Vim        | vimls           |             |
+| YAML       | yamlls          |             |
 
 ## Development
 

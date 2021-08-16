@@ -3,6 +3,30 @@ local command = require'lspservers/command'
 local servers = require'lspservers/servers'
 local M = {}
 
+local ex_commands = {
+  Install = {
+    repl = "lua require'lspservers'.install(<f-args>)",
+    args = {
+      nargs = '+',
+      complete = 'custom,lspservers#completion#available_servers',
+    },
+  },
+  Uninstall = {
+    repl = "lua require'lspservers'.uninstall(<f-args>)",
+    args = {
+      nargs = '+',
+      complete = 'custom,lspservers#completion#installed_servers',
+    },
+  },
+  Update = {
+    repl = "lua require'lspservers'.update(<f-args>)",
+    args = {
+      nargs = '*',
+      complete = 'custom,lspservers#completion#installed_servers',
+    },
+  },
+}
+
 function M.install(...)
   local cmds = {}
   for _, name in ipairs({...}) do
@@ -45,17 +69,13 @@ function M.update(...)
   command.exec(cmds)
 end
 
-function M.get_installed_servers()
-  return vim.tbl_filter(function(s)
-    return s:is_installed()
-  end, servers)
-end
-
 -- setup() is called by user to configure this plugin.
 function M.setup(opts)
   local new_servers = {}
 
   config.setup(opts)
+
+  define_ex_commands('LspServers', ex_commands)
 
   -- Setup servers
   for _, server_name in ipairs(config.default_servers) do
@@ -75,6 +95,23 @@ function M.setup(opts)
   end
 
   return M
+end
+
+function define_ex_commands(prefix, commands)
+  for name, def in pairs(commands) do
+    local attr = {}
+    for k, v in pairs(def.args or {}) do
+      table.insert(attr, string.format('-%s=%s', k, v))
+    end
+    local cmd = prefix .. name
+    local parts = vim.tbl_flatten {
+      "command!",
+      attr,
+      cmd,
+      def.repl,
+    }
+    vim.api.nvim_command(table.concat(parts, ' '))
+  end
 end
 
 return M

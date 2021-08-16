@@ -77,9 +77,17 @@ You can use same server name as nvim-lspconfig. See https://github.com/neovim/nv
 
 Some special fields is defined for nvim-lspservers and they will be ignored as server configuration.
 
-| Option        | Description                                            | Type    | Default |
-|:--------------|:-------------------------------------------------------|:--------|:-------:|
+| Option        | Description                                           | Type    | Default |
+|:--------------|:------------------------------------------------------|:--------|:-------:|
 | `auto_config` | Determine whether to apply recommended config or not. | Boolean | `true`  |
+
+### Update language servers
+
+You can update language servers by the following command;
+
+```
+:LspServersUpdate
+```
 
 ## Available language servers
 

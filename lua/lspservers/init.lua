@@ -28,6 +28,23 @@ function M.uninstall(...)
   command.exec(cmds)
 end
 
+function M.update(...)
+  local args = {...}
+  if #args == 0 then
+    args = config.default_servers
+  end
+
+  local cmds = {}
+  for _, name in ipairs(args) do
+    if servers[name] ~= nil then
+      local install, uninstall = unpack(servers[name]:update_commands())
+      table.insert(cmds, uninstall)
+      table.insert(cmds, install)
+    end
+  end
+  command.exec(cmds)
+end
+
 function M.get_installed_servers()
   return vim.tbl_filter(function(s)
     return s:is_installed()

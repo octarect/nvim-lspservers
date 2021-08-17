@@ -11,7 +11,7 @@ remove-image:
 	@docker image rm -f $(IMAGE_NAME)
 
 test:
-	@docker container run -it --rm \
+	@docker container run --rm \
 		-v $(PWD):/opt/$(NAME) \
 		-w /opt/$(NAME) \
 		$(IMAGE_NAME) \
@@ -20,11 +20,18 @@ test:
 			-c q
 
 test_server:
-	@docker container run -it --rm \
+	@docker container run --rm \
 		-v $(PWD):/opt/$(NAME) \
 		-w /opt/$(NAME) \
 		$(IMAGE_NAME) \
 		./scripts/test_installer.sh $(SERVER)
+
+test_all_servers:
+	@docker container run --rm \
+		-v $(PWD):/opt/$(NAME) \
+		-w /opt/$(NAME) \
+		$(IMAGE_NAME) \
+		./scripts/test_all_installers.sh
 
 run:
 	@docker container run -it --rm \

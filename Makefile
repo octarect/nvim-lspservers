@@ -19,6 +19,13 @@ test:
 			-c "PlenaryBustedDirectory $(TESTS) { minimal_init = '$(TEST_DIR)/minimal_init.vim' }" \
 			-c q
 
+test_server:
+	@docker container run -it --rm \
+		-v $(PWD):/opt/$(NAME) \
+		-w /opt/$(NAME) \
+		$(IMAGE_NAME) \
+		./scripts/test_installer.sh $(SERVER)
+
 run:
 	@docker container run -it --rm \
 		-v $(PWD):/opt/$(NAME) \

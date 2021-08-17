@@ -1,5 +1,6 @@
 NAME := nvim-lspservers
 IMAGE_NAME := $(NAME)
+IMAGE_NAME_GHCR := ghcr.io/octarect/nvim-lspservers:latest
 
 TEST_DIR := ./tests
 TESTS    ?= $(TEST_DIR)
@@ -14,7 +15,7 @@ test:
 	@docker container run --rm \
 		-v $(PWD):/opt/$(NAME) \
 		-w /opt/$(NAME) \
-		$(IMAGE_NAME) \
+		$(IMAGE_NAME_GHCR) \
 		nvim --headless -u $(TEST_DIR)/minimal_init.vim \
 			-c "PlenaryBustedDirectory $(TESTS) { minimal_init = '$(TEST_DIR)/minimal_init.vim' }" \
 			-c q
@@ -23,19 +24,19 @@ test_server:
 	@docker container run --rm \
 		-v $(PWD):/opt/$(NAME) \
 		-w /opt/$(NAME) \
-		$(IMAGE_NAME) \
+		$(IMAGE_NAME_GHCR) \
 		./scripts/test_installer.sh $(SERVER)
 
 test_all_servers:
 	@docker container run --rm \
 		-v $(PWD):/opt/$(NAME) \
 		-w /opt/$(NAME) \
-		$(IMAGE_NAME) \
+		$(IMAGE_NAME_GHCR) \
 		./scripts/test_all_installers.sh
 
 run:
 	@docker container run -it --rm \
 		-v $(PWD):/opt/$(NAME) \
 		-w /opt/$(NAME) \
-		$(IMAGE_NAME) \
+		$(IMAGE_NAME_GHCR) \
 		nvim -u $(TEST_DIR)/minimal_init.vim

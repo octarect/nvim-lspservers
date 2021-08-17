@@ -1,4 +1,5 @@
 # nvim-lspservers
+[![Test](https://github.com/octarect/nvim-lspservers/actions/workflows/test.yml/badge.svg)](https://github.com/octarect/nvim-lspservers/actions/workflows/test.yml)
 
 Easy to install a language server for [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 

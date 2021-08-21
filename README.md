@@ -98,6 +98,7 @@ You can update language servers by the following command;
 
 | Language   | Language Server | Auto config |
 |:-----------|:----------------|:-----------:|
+| Bash       | bashls          |             |
 | Dockerfile | dockerls        |             |
 | Go         | gopls           |             |
 | HTML       | html            | Yes         |

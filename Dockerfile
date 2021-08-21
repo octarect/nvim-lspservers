@@ -27,6 +27,7 @@ RUN set -x \
 
 # npm
 RUN set -x \
- && apt install -y --no-install-recommends nodejs npm
+ && curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
+ && apt-get install -y --no-install-recommends nodejs
 
 CMD ["/bin/bash"]

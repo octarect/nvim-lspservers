@@ -99,6 +99,7 @@ You can update language servers by the following command;
 | Dockerfile | dockerls        |             |
 | Go         | gopls           |             |
 | HTML       | html            | Yes         |
+| JSON       | jsonls          |             |
 | Lua        | sumneko_lua     | Yes         |
 | TypeScript | tsserver        |             |
 | Vim        | vimls           |             |

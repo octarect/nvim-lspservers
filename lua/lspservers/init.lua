@@ -1,6 +1,7 @@
 local config = require'lspservers/config'
 local command = require'lspservers/command'
 local servers = require'lspservers/servers'
+local alias = require'lspservers/alias'
 local M = {}
 
 local ex_commands = {
@@ -81,12 +82,14 @@ function M.setup(opts)
   for _, server_name in ipairs(config.default_servers) do
     local server = servers[server_name]
     if server ~= nil then
-      if server:is_installed() then
-        server:setup_auto()
-      else
+      if not server:is_installed() then
         table.insert(new_servers, server_name)
       end
     end
+  end
+
+  for _, server in pairs(alias.installed()) do
+    server:setup_auto()
   end
 
   -- Automatically install servers when they aren't installed

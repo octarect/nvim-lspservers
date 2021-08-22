@@ -1,15 +1,15 @@
-local progress = require'lspservers/progress'
 local M = {}
 
 function show_message(ctx, msg, as_error)
   as_error = as_error or false
 
-  msg = string.format('[lspservers] [%s/%s] %s', ctx.started_cnt, ctx.command_cnt, msg)
+  progress = string.format('[lspservers] [%s/%s]', ctx.started_cnt, ctx.command_cnt)
+  msg = string.format('%s %s', progress, msg)
 
   if as_error then
-    ctx.progress:error(msg)
+    vim.api.nvim_err_writeln(msg)
   else
-    ctx.progress:print(msg)
+    print(msg)
   end
 end
 
@@ -31,29 +31,35 @@ function on_read(stream, type)
   end
 end
 
+function on_read_stdout(stream)
+  return function(err, out)
+    if out then
+      stream.stdout = stream.stdout .. out
+    end
+  end
+end
+
+function on_read_stderr(stream)
+  return function(err, out)
+    if out then
+      stream.stderr = stream.stderr .. out
+    end
+  end
+end
+
 function M.exec(cmds, ctx)
   if #cmds == 0 then
     if ctx ~= nil and ctx.command_cnt > 0 then
       show_message(ctx, 'Done!!')
-      ctx.progress:close()
     end
     return
   end
 
-  ctx = ctx or {
-    command_cnt = #cmds,
-    started_cnt = 0,
-    stream = {},
-    progress = (function()
-      local echo = progress.new('echo')
-      echo:open()
-      return echo
-    end)(),
-  }
+  ctx = ctx or { command_cnt = #cmds, started_cnt = 0, stream = {} }
   ctx.started_cnt = ctx.started_cnt + 1
 
   local cmd = table.remove(cmds, 1)
-  show_message(ctx, cmd.progress or ('Executing ' .. get_command(cmd)))
+  show_message(ctx, cmd.progress or 'Executing ' .. get_command(cmd))
 
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
@@ -66,7 +72,7 @@ function M.exec(cmds, ctx)
       cwd = cmd.cwd,
       stdio = {nil, stdout, stderr},
     },
-    vim.schedule_wrap(function(code, _)
+    vim.schedule_wrap(function(code, signal)
       stdout:read_stop()
       stderr:read_stop()
       stdout:close()
@@ -84,6 +90,11 @@ function M.exec(cmds, ctx)
         if cmd.error_cb ~= nil then
           cmd.error_cb(stream.stdout, stream.stderr)
         end
+
+        cmd.success_cb = nil
+        cmd.error_cb = nil
+        local debug_msg = 'while executing:\n' .. vim.fn.json_encode(cmd)
+        show_message(ctx, debug_msg, true)
 
         return
       else

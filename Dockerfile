@@ -30,4 +30,9 @@ RUN set -x \
  && curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
  && apt-get install -y --no-install-recommends nodejs
 
+# ruby bundler
+RUN set -x \
+ && apt-get install -y --no-install-recommends ruby ruby-dev \
+ && gem install bundler
+
 CMD ["/bin/bash"]

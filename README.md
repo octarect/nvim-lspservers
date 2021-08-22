@@ -104,6 +104,7 @@ You can update language servers by the following command;
 | HTML       | html            | Yes         |
 | JSON       | jsonls          |             |
 | Lua        | sumneko_lua     | Yes         |
+| Ruby       | solargraph      |             |
 | TypeScript | tsserver        |             |
 | Vim        | vimls           |             |
 | YAML       | yamlls          |             |

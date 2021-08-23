@@ -2,7 +2,7 @@ local M = {}
 
 local REQUIRED_TOOLS = {
   {
-    name = "go",
+    name = "golang",
     command = "go",
     get_version = function()
       local output = M._read_from_command('go version')
@@ -15,6 +15,14 @@ local REQUIRED_TOOLS = {
     command = "npm",
     get_version = function()
       return M._read_from_command('npm --version')
+    end
+  },
+  {
+    name = "bundler (ruby)",
+    command = "bundle",
+    get_version = function()
+      local output =  M._read_from_command('bundle --version')
+      return output
     end
   },
 }
@@ -35,8 +43,12 @@ end
 function M.check_health()
   health_start('Required tools')
   for _, tool in ipairs(REQUIRED_TOOLS) do
-    if vim.fn.has(tool.command) then
-      local version = tool.get_version()
+    local exist = vim.fn.has(tool.command)
+    local version = ''
+    if exist then
+      version = tool.get_version()
+    end
+    if exist and type(version) == 'string' and #version > 0 then
       health_ok(string.format('%s found (%s)', tool.name, version))
     else
       health_warn(string.format('%s not found', tool.name))

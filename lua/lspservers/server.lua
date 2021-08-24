@@ -35,8 +35,15 @@ function Server:setup_auto()
     config.global,
     self:get_config().config or {},
   }
-  if self:get_config().auto_config then
-    table.insert(priority, 1, self.auto_config or {})
+  if self:get_config().auto_config and type(self.auto_config) == 'function' then
+    local c = self.auto_config()
+    if type(c) == 'table' then
+      table.insert(priority, 1, self.auto_config() or {})
+    else
+      vim.api.nvim_err_writeln(string.format(
+        'servers[%q].auto_config() did not return table. skipping...', self.name
+      ))
+    end
   end
   local server_config = vim.tbl_deep_extend('force', unpack(priority))
   self:setup(server_config)

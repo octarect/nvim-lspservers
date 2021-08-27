@@ -33,4 +33,4 @@ jobs:
 
       - name: Test installers
         run: |
-          make test_all_servers
+          make test-all-servers

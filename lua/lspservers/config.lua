@@ -1,7 +1,7 @@
 local M = {}
 
 function M.default_installation_path()
-  return os.getenv('HOME') .. '/.local/share/nvim/lspservers'
+  return os.getenv 'HOME' .. '/.local/share/nvim/lspservers'
 end
 
 function M.setup(opts)

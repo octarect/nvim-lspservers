@@ -1,6 +1,6 @@
-local server = require'lspservers/server'
+local server = require 'lspservers/server'
 
-return server.new{
+return server.new {
   name = 'solargraph',
   cmd = { './run-solargraph', 'stdio' },
   installer = [[
@@ -16,5 +16,5 @@ DIR=$(cd $(dirname $0); pwd)/solargraph
 BUNDLE_GEMFILE=$DIR/Gemfile bundle exec ruby $DIR/bin/solargraph $*
 EOF
     chmod +x ./run-solargraph
-  ]]
+  ]],
 }

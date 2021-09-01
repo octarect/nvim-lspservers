@@ -1,6 +1,6 @@
-local server = require'lspservers/server'
+local server = require 'lspservers/server'
 
-return server.new{
+return server.new {
   name = 'bashls',
   cmd = { './node_modules/.bin/bash-language-server', 'start' },
   installer = [[

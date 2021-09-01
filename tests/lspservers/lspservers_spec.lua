@@ -1,4 +1,4 @@
-local lspservers = require'lspservers'
+local lspservers = require 'lspservers'
 
 describe('lspservers', function()
   describe('install', function()

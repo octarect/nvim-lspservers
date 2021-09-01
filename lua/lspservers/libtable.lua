@@ -38,7 +38,9 @@ function M.split(s, delimiter)
   local len = #s
   local delim_len = #delimiter
   local i = 1
-  local idx = function(s, i) return string.sub(s, i, i) end
+  local idx = function(s, i)
+    return string.sub(s, i, i)
+  end
   while i <= len do
     if idx(s, i) == idx(delimiter, 1) then
       local remaining = delim_len - 1

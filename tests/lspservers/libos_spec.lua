@@ -1,15 +1,15 @@
-local libos = require'lspservers/libos'
+local libos = require 'lspservers/libos'
 
 describe('libos', function()
   describe('exists()', function()
     it('should return true for the file exists', function()
       -- This file
-      local file = debug.getinfo(1).source:match("@?(.*)")
+      local file = debug.getinfo(1).source:match '@?(.*)'
       assert.is_true(libos.exists(file))
     end)
 
     it('should return false when the file is not found', function()
-      local plugin_path = debug.getinfo(1).source:match("@?(.*)/.*/.*/.*")
+      local plugin_path = debug.getinfo(1).source:match '@?(.*)/.*/.*/.*'
       local dummy_file = plugin_path .. '/dummy'
       assert.is_not_true(libos.exists(dummy_file))
     end)

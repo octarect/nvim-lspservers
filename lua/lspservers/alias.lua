@@ -1,4 +1,4 @@
-local servers = require'lspservers/servers'
+local servers = require 'lspservers/servers'
 local M = {}
 
 function M.available()

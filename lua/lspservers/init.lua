@@ -1,7 +1,7 @@
-local config = require'lspservers/config'
-local command = require'lspservers/command'
-local servers = require'lspservers/servers'
-local alias = require'lspservers/alias'
+local config = require 'lspservers/config'
+local command = require 'lspservers/command'
+local servers = require 'lspservers/servers'
+local alias = require 'lspservers/alias'
 local M = {}
 
 local ex_commands = {
@@ -30,12 +30,10 @@ local ex_commands = {
 
 function M.install(...)
   local cmds = {}
-  for _, name in ipairs({...}) do
+  for _, name in ipairs { ... } do
     if servers[name] == nil then
       -- Abort when non-existent server is specified.
-      return vim.api.nvim_err_writeln(
-        string.format('Server not found: %q', name)
-      )
+      return vim.api.nvim_err_writeln(string.format('Server not found: %q', name))
     else
       table.insert(cmds, servers[name]:install())
     end
@@ -45,7 +43,7 @@ end
 
 function M.uninstall(...)
   local cmds = {}
-  for _, name in ipairs({...}) do
+  for _, name in ipairs { ... } do
     if servers[name] ~= nil then
       table.insert(cmds, servers[name]:uninstall())
     end
@@ -54,7 +52,7 @@ function M.uninstall(...)
 end
 
 function M.update(...)
-  local args = {...}
+  local args = { ... }
   if #args == 0 then
     args = config.default_servers
   end
@@ -108,7 +106,7 @@ function define_ex_commands(prefix, commands)
     end
     local cmd = prefix .. name
     local parts = vim.tbl_flatten {
-      "command!",
+      'command!',
       attr,
       cmd,
       def.repl,

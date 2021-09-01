@@ -1,6 +1,6 @@
-local server = require'lspservers/server'
+local server = require 'lspservers/server'
 
-return server.new{
+return server.new {
   name = 'html',
   cmd = { './node_modules/.bin/vscode-html-language-server', '--stdio' },
   installer = [[
@@ -15,5 +15,5 @@ return server.new{
     return {
       capabilities = capabilities,
     }
-  end
+  end,
 }

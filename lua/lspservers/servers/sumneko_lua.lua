@@ -1,11 +1,12 @@
-local server = require'lspservers/server'
+local server = require 'lspservers/server'
 
 local platform = 'Linux'
-if vim.fn.has('mac') == 1 then
+if vim.fn.has 'mac' == 1 then
   platform = 'macOS'
 end
 
-local installer = string.format([[
+local installer = string.format(
+  [[
 set -e
 platform='%s'
 
@@ -29,9 +30,11 @@ $luals_cmd -E -e LANG=en $server_dir/main.lua \$*
 EOF
 
 chmod +x ./sumneko-lua-language-server
-]], platform)
+]],
+  platform
+)
 
-return server.new({
+return server.new {
   name = 'sumneko_lua',
   cmd = { './sumneko-lua-language-server' },
   installer = installer,
@@ -47,7 +50,7 @@ return server.new({
             globals = { 'vim' },
           },
           workspace = {
-            library = vim.api.nvim_get_runtime_file("", true),
+            library = vim.api.nvim_get_runtime_file('', true),
           },
           telemetry = {
             enable = false,
@@ -55,5 +58,5 @@ return server.new({
         },
       },
     }
-  end
-})
+  end,
+}

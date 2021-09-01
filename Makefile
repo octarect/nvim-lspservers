@@ -22,4 +22,7 @@ test-all-servers:
 run:
 	$(DOCKER_RUN) -it nvim -u $(TEST_DIR)/minimal_init.vim
 
-.PHONY: image test test-server test-all-servers run
+style-lint:
+	stylua --check .
+
+.PHONY: image test test-server test-all-servers run style-lint

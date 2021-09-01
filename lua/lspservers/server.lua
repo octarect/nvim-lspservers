@@ -1,6 +1,6 @@
-local config = require'lspservers/config'
-local libos = require'lspservers/libos'
-local lspconfig = require'lspconfig'
+local config = require 'lspservers/config'
+local libos = require 'lspservers/libos'
+local lspconfig = require 'lspconfig'
 local M = {}
 local Server = {}
 
@@ -40,9 +40,7 @@ function Server:setup_auto()
     if type(c) == 'table' then
       table.insert(priority, 1, self.auto_config() or {})
     else
-      vim.api.nvim_err_writeln(string.format(
-        'servers[%q].auto_config() did not return table. skipping...', self.name
-      ))
+      vim.api.nvim_err_writeln(string.format('servers[%q].auto_config() did not return table. skipping...', self.name))
     end
   end
   local server_config = vim.tbl_deep_extend('force', unpack(priority))
@@ -51,7 +49,7 @@ end
 
 function Server:install()
   local installation_path = self:get_installation_path()
-  if not(libos.is_dir(installation_path)) then
+  if not (libos.is_dir(installation_path)) then
     self:_mkdir()
   end
 
@@ -96,9 +94,7 @@ function Server:_mkdir()
   local installation_path = self:get_installation_path()
   local code = os.execute('mkdir -p ' .. installation_path)
   if code ~= 0 then
-    vim.api.nvim_err_writeln(
-      string.format('Cannot create directory: code=%d, path=%s', code, installation_path)
-    )
+    vim.api.nvim_err_writeln(string.format('Cannot create directory: code=%d, path=%s', code, installation_path))
   end
 end
 
@@ -106,14 +102,12 @@ function Server:_rollback()
   local installation_path = self:get_installation_path()
   local code = os.execute('rm -rf ' .. installation_path)
   if code ~= 0 then
-    vim.api.nvim_err_writeln(
-      string.format('Cannot remove directory: code=%d, path=%s', code, installation_path)
-    )
+    vim.api.nvim_err_writeln(string.format('Cannot remove directory: code=%d, path=%s', code, installation_path))
   end
 end
 
 function M.new(args)
-  return setmetatable(args, {__index = Server})
+  return setmetatable(args, { __index = Server })
 end
 
 return M

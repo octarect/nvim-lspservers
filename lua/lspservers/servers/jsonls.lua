@@ -1,6 +1,6 @@
-local server = require'lspservers/server'
+local server = require 'lspservers/server'
 
-return server.new{
+return server.new {
   name = 'jsonls',
   cmd = { './node_modules/.bin/vscode-json-language-server', '--stdio' },
   installer = [[

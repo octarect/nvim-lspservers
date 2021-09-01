@@ -46,14 +46,14 @@ function M.exec(cmds, ctx)
 
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
-  local stream = { stdout = '',  stderr = '' }
+  local stream = { stdout = '', stderr = '' }
   local handle
   handle = vim.loop.spawn(
     cmd.cmd,
     {
       args = cmd.args,
       cwd = cmd.cwd,
-      stdio = {nil, stdout, stderr},
+      stdio = { nil, stdout, stderr },
     },
     vim.schedule_wrap(function(code, _)
       stdout:read_stop()
@@ -63,11 +63,7 @@ function M.exec(cmds, ctx)
       handle:close()
 
       if code ~= 0 then
-        local msg = string.format(
-          'Failed to execute the command with code %s: %s',
-          code,
-          stream.stderr
-        )
+        local msg = string.format('Failed to execute the command with code %s: %s', code, stream.stderr)
         show_message(ctx, msg, true)
 
         if cmd.error_cb ~= nil then

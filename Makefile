@@ -13,8 +13,8 @@ test:
 		-c "PlenaryBustedDirectory $(TESTS) { minimal_init = '$(TEST_DIR)/minimal_init.vim' }" \
 		-c q
 
-test-server:
-	$(DOCKER_RUN) ./scripts/test_installer.sh $(SERVER)
+test/%:
+	$(DOCKER_RUN) ./scripts/test_installer.sh $*
 
 test-all-servers:
 	$(DOCKER_RUN) ./scripts/test_all_installers.sh
@@ -25,4 +25,4 @@ run:
 style-lint:
 	stylua --check .
 
-.PHONY: image test test-server test-all-servers run style-lint
+.PHONY: image test test-all-servers run style-lint

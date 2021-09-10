@@ -23,7 +23,7 @@ if ! contains "$servers" "$target_server"; then
   exit 1
 fi
 
-installation_path="/opt/test/$target_server"
+installation_path="/tmp/nvim-lspservers/$target_server"
 script_path="$installation_path/install.sh"
 
 script="$(nvim_exec "echo v:lua.require('lspservers/servers').$target_server.installer")"

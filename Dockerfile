@@ -14,7 +14,8 @@ RUN set -x \
 
 # Plugins
 RUN set -x \
- && cd /opt \
+ && mkdir -p $HOME/.local/share/nvim/site/pack/vendor/start \
+ && cd $HOME/.local/share/nvim/site/pack/vendor/start \
  && git clone https://github.com/nvim-lua/plenary.nvim.git \
  && git clone https://github.com/neovim/nvim-lspconfig
 

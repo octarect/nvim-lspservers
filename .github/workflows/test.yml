@@ -1,36 +1,68 @@
 name: Test
 
-on:
-  push:
-  pull_request:
+on: [push, pull_request]
 
 jobs:
-  test:
+  linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Test
-        run: make test
-
-
-  test_installers:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Test installers
+      - name: Prepare
         run: |
-          make test-all-servers
+          # Install Neovim
+          test -d build || {
+            mkdir -p build
+            wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+            chmod +x nvim.appimage
+            mv nvim.appimage ./build/nvim
+          }
+          echo "${PWD}/build" >> $GITHUB_PATH
+
+          # Download plugins
+          mkdir -p ~/.local/share/nvim/site/pack/vendor/start
+          git clone https://github.com/nvim-lua/plenary.nvim.git ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+          git clone https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/vendor/start/nvim-lspconfig
+
+          # Install bundler
+          sudo apt install -y --no-install-recommends ruby ruby-dev
+          sudo gem install bundler
+      - name: Run tests
+        run: |
+          TEST_DIR=./tests
+          nvim --headless -u $TEST_DIR/minimal_init.vim \
+            -c "PlenaryBustedDirectory $TEST_DIR { minimal_init = '$TEST_DIR/minimal_init.vim' }" \
+            -c q
+          ./scripts/test_all_installers.sh
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare
+        run: |
+          # brew
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+          # Install Neovim
+          brew install neovim
+
+          # Download plugins
+          mkdir -p ~/.local/share/nvim/site/pack/vendor/start
+          git clone https://github.com/nvim-lua/plenary.nvim.git ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+          git clone https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/vendor/start/nvim-lspconfig
+      - name: Run tests
+        run: |
+          TEST_DIR=./tests
+          nvim --headless -u $TEST_DIR/minimal_init.vim \
+            -c "PlenaryBustedDirectory $TEST_DIR { minimal_init = '$TEST_DIR/minimal_init.vim' }" \
+            -c q
+          ./scripts/test_all_installers.sh
+
+  stylua:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: JohnnyMorganz/stylua-action@1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --color always --check .

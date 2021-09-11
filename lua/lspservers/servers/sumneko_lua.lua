@@ -10,12 +10,23 @@ local installer = string.format(
 set -e
 platform='%s'
 
-# get latest version
-latest_api_url="https://api.github.com/repos/sumneko/vscode-lua/releases/latest"
-version="$(curl -s "$latest_api_url" | grep "tag_name" | sed -E 's/\ *"tag_name":\ *"v([^"]+)".*/\1/')"
+if [ "$CI" = "true" ]; then
+  # In GitHub Actions, some VM may have exceeded rate limit of GitHub API
+  version="2.3.6"
+else
+  # get latest version
+  latest_api_url="https://api.github.com/repos/sumneko/vscode-lua/releases/latest"
+  response="$(curl -s "$latest_api_url")"
+  version="$(echo "$response" | grep "tag_name" | sed -E 's/\ *"tag_name":\ *"v([^"]+)".*/\1/')"
+  if [ -z "$version" ]; then
+    echo "Unexpected response from github api:"
+    echo "$response"
+    exit 1
+  fi
+fi
+echo "version v$version will be installed. (CI=${CI:-false})"
 
 release_url="https://github.com/sumneko/vscode-lua/releases/download/v$version/lua-$version.vsix"
-
 curl -L "$release_url" -o tmp.vsix
 unzip tmp.vsix
 rm tmp.vsix

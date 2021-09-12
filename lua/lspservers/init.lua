@@ -35,7 +35,11 @@ function M.install(...)
       -- Abort when non-existent server is specified.
       return vim.api.nvim_err_writeln(string.format('Server not found: %q', name))
     else
-      table.insert(cmds, servers[name]:install())
+      if servers[name]:is_installed() then
+        print(string.format('Server already exists: %q', name))
+      else
+        table.insert(cmds, servers[name]:install())
+      end
     end
   end
   command.exec(cmds)
@@ -60,7 +64,7 @@ function M.update(...)
   local cmds = {}
   for _, name in ipairs(args) do
     if servers[name] ~= nil then
-      local install, uninstall = unpack(servers[name]:update_commands())
+      local uninstall, install = unpack(servers[name]:update_commands())
       table.insert(cmds, uninstall)
       table.insert(cmds, install)
     end

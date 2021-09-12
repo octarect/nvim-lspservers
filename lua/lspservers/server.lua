@@ -79,15 +79,15 @@ function Server:uninstall()
 end
 
 function Server:update_commands()
-  local install = self:install()
-  install.progress = string.format('Updating %s', self.name)
-
   local uninstall = self:uninstall()
   uninstall.success_cb = function(_, _)
     self:_mkdir()
   end
 
-  return { install, uninstall }
+  local install = self:install()
+  install.progress = string.format('Updating %s', self.name)
+
+  return { uninstall, install }
 end
 
 function Server:_mkdir()

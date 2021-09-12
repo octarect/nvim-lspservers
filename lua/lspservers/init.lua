@@ -1,7 +1,7 @@
 local config = require 'lspservers/config'
-local command = require 'lspservers/command'
 local servers = require 'lspservers/servers'
 local alias = require 'lspservers/alias'
+local runner = require 'lspservers/job/serial_runner'
 local M = {}
 
 local ex_commands = {
@@ -42,7 +42,7 @@ function M.install(...)
       end
     end
   end
-  command.exec(cmds)
+  runner.new():run(cmds)
 end
 
 function M.uninstall(...)
@@ -52,7 +52,7 @@ function M.uninstall(...)
       table.insert(cmds, servers[name]:uninstall())
     end
   end
-  command.exec(cmds)
+  runner.new():run(cmds)
 end
 
 function M.update(...)
@@ -69,7 +69,7 @@ function M.update(...)
       table.insert(cmds, install)
     end
   end
-  command.exec(cmds)
+  runner.new():run(cmds)
 end
 
 -- setup() is called by user to configure this plugin.

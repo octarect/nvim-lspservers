@@ -1,5 +1,6 @@
 local config = require 'lspservers/config'
 local libos = require 'lspservers/libos'
+local command_job = require 'lspservers/job/command_job'
 local lspconfig = require 'lspconfig'
 local M = {}
 local Server = {}
@@ -53,7 +54,7 @@ function Server:install()
     self:_mkdir()
   end
 
-  return {
+  return command_job.new {
     cmd = 'bash',
     args = { '-c', self.installer },
     progress = string.format('Installing %s', self.name),
@@ -70,7 +71,7 @@ function Server:install()
 end
 
 function Server:uninstall()
-  return {
+  return command_job.new {
     cmd = 'rm',
     args = { '-rf', self.name },
     progress = string.format('Removing %s', self.name),

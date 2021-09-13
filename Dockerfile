@@ -36,4 +36,8 @@ RUN set -x \
  && apt-get install -y --no-install-recommends ruby ruby-dev \
  && gem install bundler
 
+# pip
+RUN set -x \
+ && apt install -y python3 python3-pip python3-venv
+
 CMD ["/bin/bash"]

@@ -21,8 +21,16 @@ local REQUIRED_TOOLS = {
     name = 'bundler (ruby)',
     command = 'bundle',
     get_version = function()
-      local output = M._read_from_command 'bundle --version'
-      return output
+      return M._read_from_command 'bundle --version'
+    end,
+  },
+  {
+    name = 'pip',
+    command = 'pip',
+    get_version = function()
+      local output = M._read_from_command 'pip --version'
+      local version = string.match(output, 'pip [%d.]+')
+      return version
     end,
   },
 }

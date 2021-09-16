@@ -108,6 +108,7 @@ You can update language servers by the following command:
 | Python     | jedi_language_server |             |
 | Ruby       | solargraph           |             |
 | TypeScript | tsserver             |             |
+| Terraform  | terraformls          |             |
 | Vim        | vimls                |             |
 | YAML       | yamlls               |             |
 

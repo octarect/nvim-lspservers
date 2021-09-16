@@ -97,18 +97,19 @@ You can update language servers by the following command:
 
 **TODO**: I am planning to expand our supported servers in series. For the time being, we will focus to add same servers as [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md).
 
-| Language   | Language Server | Auto config |
-|:-----------|:----------------|:-----------:|
-| Bash       | bashls          |             |
-| Dockerfile | dockerls        |             |
-| Go         | gopls           |             |
-| HTML       | html            | Yes         |
-| JSON       | jsonls          |             |
-| Lua        | sumneko_lua     | Yes         |
-| Ruby       | solargraph      |             |
-| TypeScript | tsserver        |             |
-| Vim        | vimls           |             |
-| YAML       | yamlls          |             |
+| Language   | Language Server      | Auto config |
+|:-----------|:---------------------|:-----------:|
+| Bash       | bashls               |             |
+| Dockerfile | dockerls             |             |
+| Go         | gopls                |             |
+| HTML       | html                 | Yes         |
+| JSON       | jsonls               |             |
+| Lua        | sumneko_lua          | Yes         |
+| Python     | jedi_language_server |             |
+| Ruby       | solargraph           |             |
+| TypeScript | tsserver             |             |
+| Vim        | vimls                |             |
+| YAML       | yamlls               |             |
 
 ## Development
 

@@ -4,7 +4,7 @@ return server.new {
   name = 'vimls',
   cmd = { './node_modules/.bin/vim-language-server', '--stdio' },
   installer = [[
-    set -e
-    npm install vim-language-server@latest
+  set -e
+  npm install vim-language-server@latest
   ]],
 }

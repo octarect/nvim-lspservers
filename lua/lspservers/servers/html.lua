@@ -4,8 +4,8 @@ return server.new {
   name = 'html',
   cmd = { './node_modules/.bin/vscode-html-language-server', '--stdio' },
   installer = [[
-    set -e
-    npm install vscode-langservers-extracted
+  set -e
+  npm install vscode-langservers-extracted
   ]],
   auto_config = function()
     -- Enable snippet support for completion

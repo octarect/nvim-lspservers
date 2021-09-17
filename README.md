@@ -107,6 +107,7 @@ You can update language servers by the following command:
 | Lua        | sumneko_lua          | Yes         |
 | Python     | jedi_language_server |             |
 | Ruby       | solargraph           |             |
+| Rust       | rust_analyzer        |             |
 | TypeScript | tsserver             |             |
 | Terraform  | terraformls          |             |
 | Vim        | vimls                |             |

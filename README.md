@@ -110,6 +110,7 @@ You can update language servers by the following command:
 | Rust       | rust_analyzer        |             |
 | TypeScript | tsserver             |             |
 | Terraform  | terraformls          |             |
+| Terraform  | tflint               |             |
 | Vim        | vimls                |             |
 | YAML       | yamlls               |             |
 

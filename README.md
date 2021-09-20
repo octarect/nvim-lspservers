@@ -107,6 +107,7 @@ You can update language servers by the following command:
 | JSON       | jsonls               |             |
 | Lua        | sumneko_lua          | Yes         |
 | Python     | jedi_language_server |             |
+| Python     | pyright              |             |
 | Ruby       | solargraph           |             |
 | Rust       | rust_analyzer        |             |
 | TypeScript | tsserver             |             |

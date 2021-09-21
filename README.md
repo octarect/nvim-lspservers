@@ -17,12 +17,7 @@ Easy to install a language server for [neovim/nvim-lspconfig](https://github.com
 
 Obviously you must have [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 
-`nvim-lspservers` uses the following tools to install language servers:
-
-- npm
-- go
-- bundle (ruby)
-
+Some servers may require an additional tool (e.g. `npm`) to install them.
 You can check if they are available by `:checkhealth lspservers` after installation of plugin.
 
 ### Installation

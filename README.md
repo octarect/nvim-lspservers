@@ -94,6 +94,7 @@ You can update language servers by the following command:
 
 | Language   | Language Server      | Auto config |
 |:-----------|:---------------------|:-----------:|
+| Ansible    | ansiblels            |             |
 | Bash       | bashls               |             |
 | C/C++      | clangd               |             |
 | CSS        | cssls                | Yes         |

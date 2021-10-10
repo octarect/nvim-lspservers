@@ -99,6 +99,7 @@ You can update language servers by the following command:
 | C/C++      | clangd               |             |
 | CSS        | cssls                | Yes         |
 | Dockerfile | dockerls             |             |
+| Elixir     | elixirls             |             |
 | Go         | gopls                |             |
 | HTML       | html                 | Yes         |
 | JSON       | jsonls               |             |

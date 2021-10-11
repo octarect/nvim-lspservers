@@ -24,6 +24,11 @@ jobs:
           # Install bundler
           sudo apt install -y --no-install-recommends ruby ruby-dev
           sudo gem install bundler
+
+          # Install erlang
+          sudo apt install -y erlang-base erlang-asn1 erlang-public-key erlang-ssl erlang-inets erlang-eunit erlang-dev erlang-parsetools
+          sudo curl -L https://github.com/erlang/rebar3/releases/download/3.13.3/rebar3 -o /usr/local/bin/rebar3
+          sudo chmod +x /usr/local/bin/rebar3
       - name: Run tests
         run: |
           TEST_DIR=./tests
@@ -48,6 +53,10 @@ jobs:
           mkdir -p ~/.local/share/nvim/site/pack/vendor/start
           git clone https://github.com/nvim-lua/plenary.nvim.git ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
           git clone https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/vendor/start/nvim-lspconfig
+
+          # Install erlang
+          brew install erlang
+          brew install rebar3
       - name: Run tests
         run: |
           TEST_DIR=./tests

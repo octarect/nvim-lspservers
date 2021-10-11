@@ -100,6 +100,7 @@ You can update language servers by the following command:
 | CSS        | cssls                | Yes         |
 | Dockerfile | dockerls             |             |
 | Elixir     | elixirls             |             |
+| Erlang     | erlangls             |             |
 | Go         | gopls                |             |
 | HTML       | html                 | Yes         |
 | JSON       | jsonls               |             |

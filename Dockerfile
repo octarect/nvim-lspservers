@@ -40,4 +40,10 @@ RUN set -x \
 RUN set -x \
  && apt install -y python3 python3-pip python3-venv
 
+# erlang
+RUN set -x \
+ && apt install -y erlang-base erlang-asn1 erlang-public-key erlang-ssl erlang-inets erlang-eunit erlang-dev erlang-parsetools \
+ && curl -L https://github.com/erlang/rebar3/releases/download/3.13.3/rebar3 -o /usr/local/bin/rebar3 \
+ && chmod +x /usr/local/bin/rebar3
+
 CMD ["/bin/bash"]

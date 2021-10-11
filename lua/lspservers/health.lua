@@ -33,6 +33,19 @@ local REQUIRED_TOOLS = {
       return version
     end,
   },
+  {
+    name = 'erlang',
+    command = 'erl',
+    get_version = function()
+      local cmd = 'erl -eval "erlang:display(erlang:system_info(otp_release)), halt()."  -noshell'
+      local output = M._read_from_command(cmd)
+      local version = string.match(output, '%d+')
+      if version then
+        return 'OTP ' .. version
+      end
+      return ''
+    end,
+  },
 }
 
 local health_start = vim.fn['health#report_start']

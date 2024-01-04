@@ -48,10 +48,10 @@ local REQUIRED_TOOLS = {
   },
 }
 
-local health_start = vim.fn['health#report_start']
-local health_ok = vim.fn['health#report_ok']
-local health_error = vim.fn['health#report_error']
-local health_warn = vim.fn['health#report_warn']
+local health_start = vim.health.start
+local health_ok = vim.health.ok
+local health_error = vim.health.error
+local health_warn = vim.health.warn
 
 function M._read_from_command(command)
   local f = io.popen(command, 'r')
@@ -61,7 +61,7 @@ function M._read_from_command(command)
   return str
 end
 
-function M.check_health()
+function M.check()
   health_start 'Required tools'
   for _, tool in ipairs(REQUIRED_TOOLS) do
     local exist = vim.fn.has(tool.command)
